@@ -16,6 +16,3 @@ def create_graph(nodes_file, edges_file):
 
 def calculate_graph_centrality():
     pass
-
-
-create_graph('data/linkedin.nodes.example', 'data/linkedin.edges.example')
