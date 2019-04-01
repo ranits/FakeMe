@@ -1,0 +1,196 @@
+{  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Social Investigation"
+  },
+  "basePath": "/investigation",
+  "tags": [
+    {
+      "name": "Hackathon 2019",
+      "description": "\nEverything about Fake Avatar"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/profiles": {
+      "get": {
+        "tags": [
+          "Get Profiles"
+        ],
+        "summary": "Get All profiles in the investigation",
+        "description": "Get All profiles in the investigation",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "All profiles in the investigation"
+          }
+        }
+      }
+    },
+    "/profile/{id}": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "Get Profile by Id",
+        "description": "Get Profile by Id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ontology name",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile details"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "post": {
+        "tags": [
+          "add profile"
+        ],
+        "summary": "submit a profile",
+        "description": "submit a profile",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "<body>",
+            "description": "profile as json ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a profile status",
+            "schema": {
+              "$ref": "#/definitions/ProfileInfo"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "profile"
+        ],
+        "summary": "Deletes a profile by ID",
+        "description": "Deletes a profile by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "profile ID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "A <code>204</code>"
+          }
+        }
+      }
+    },
+    "/profile/{id}/status": {
+      "get": {
+        "tags": [
+          "get profile status"
+        ],
+        "summary": "Fetch profile status by profile ID",
+        "description": "Fetch profile status by profile ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "profile ID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns <code>200</code> with a single query info or <code>404</code>",
+            "schema": {
+              "$ref": "#/definitions/ProfileInfo"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "id": "1",
+        "name": "Q1",
+        "ontology":"Knowledge",
+        "query": "match (a:Entity)-[b:relatedEntity]-(c:Entity) return *"
+      }
+    },
+    "ProfileInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "id": "1",
+        "name": "Q1",
+        "query": {
+          "ont": "Knowledge",
+          "elements": [
+            {
+              "type": "Start",
+              "eNum": 0,
+              "next": 1
+            },
+            {
+              "type": "EConcrete",
+              "eNum": 1,
+              "eTag": "A",
+              "eType": "Entity",
+              "eID": "12345678"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
