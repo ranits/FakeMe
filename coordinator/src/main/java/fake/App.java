@@ -1,6 +1,8 @@
 package fake;
 
+import fake.model.Investigation;
 import fake.model.Profile;
+import fake.model.Target;
 import org.jooby.Jooby;
 import org.jooby.RequestLogger;
 import org.jooby.Results;
@@ -8,9 +10,6 @@ import org.jooby.Status;
 import org.jooby.apitool.ApiTool;
 import org.jooby.json.Jackson;
 import org.jooby.scanner.Scanner;
-
-import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Source code for http://www.todobackend.com.
@@ -37,49 +36,62 @@ public class App extends Jooby {
             }
         });
 
-        /** Compute absolute Profile URL: */
-        after("/profile/**", (req, rsp, result) -> {
-            Consumer<Profile> computeUrl = (profile) -> profile
-                    .setImageUrl("http://" + req.header("host").value("") + "/profile/" + profile.getId());
-            Object value = result.get();
-            if (value instanceof Profile) {
-                computeUrl.accept((Profile) value);
-            } else if (value instanceof List) {
-                ((List) value).forEach(computeUrl);
-            }
-            return result;
+        /** Investigation API: */
+        post("/investigation",(request) -> {
+            InvestigationAPI store = getInvestigation();
+            return store.list();
         });
+        /** Investigation API: */
+        post("/investigation/:id/target",(req) -> {
+            Investigation investigation = getInvestigation().get(req.param("id").toString());
+            Target target = req.body(Target.class);
+            investigation.setTarget(target);
+            return target;
+        });
+
+        /** Get todo by ID. */
+        get("/investigation/:id", req -> {
+            return getInvestigation().get(req.param("id").toString());
+        });
+
+        post("/investigation",req -> {
+            return Results.with(getInvestigation().create(req.body(Investigation.class)), Status.CREATED);
+        });
+
+        /** Image API: */
+
+        /** Graph API: */
 
         /** Profile API: */
         get("/profiles",(request) -> {
-                    SocialAPI store = getStore();
+                    SocialAPI store = getProfiles();
                     return store.list();
                 });
                 /** Get todo by ID. */
         get("/profiles/:id", req -> {
-                    SocialAPI store = getStore();
+                    SocialAPI store = getProfiles();
                     return store.get(req.param("id").intValue());
                 });
                 /** Create a new todo. */
         post("/profiles",req -> {
-                    SocialAPI store = getStore();
+                    SocialAPI store = getProfiles();
                     return Results.with(store.create(req.body(Profile.class)), Status.CREATED);
                 });
                 /** Delete todo by ID. */
         delete("/:id", req -> {
-                    SocialAPI store = getStore();
+                    SocialAPI store = getProfiles();
                     store.delete(req.param("id").intValue());
                     return Results.noContent();
                 });
                 /** Delete all todos. */
          delete(() -> {
-                    SocialAPI store = getStore();
+                    SocialAPI store = getProfiles();
                     store.deleteAll();
                     return Results.noContent();
                 });
                 /** Update an existing todo. */
          patch("/:id", req -> {
-                    SocialAPI store = getStore();
+                    SocialAPI store = getProfiles();
                     return store.merge(req.param("id").intValue(), req.body(Profile.class));
                 });
         use(new ApiTool()
@@ -92,8 +104,12 @@ public class App extends Jooby {
 
     }
 
-    private SocialAPI getStore() {
+    private SocialAPI getProfiles() {
         return require(SocialAPI.class);
+    }
+
+    private InvestigationAPI getInvestigation() {
+        return require(InvestigationAPI.class);
     }
 
     public static void main(final String[] args) {

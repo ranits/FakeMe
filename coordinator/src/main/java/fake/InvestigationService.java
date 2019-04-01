@@ -1,67 +1,54 @@
 package fake;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import javax.inject.Singleton;
 
-import fake.SocialAPI;
-import fake.model.Profile;
+import fake.model.Investigation;
 import org.jooby.Err;
 import org.jooby.Status;
 
 @Singleton
-public class InvestigationService implements SocialAPI {
+public class InvestigationService implements InvestigationAPI {
 
-  private Map<Integer, Profile> profiles = new ConcurrentHashMap<>();
+  private Map<String, Investigation> investigations = new ConcurrentHashMap<>();
 
   public InvestigationService() {
-    System.out.println("Initializing InvestigationService[profiles]");
+    System.out.println("Initializing InvestigationService[investigations]");
   }
 
   @Override
-  public List<Profile> list() {
-    return profiles.values().stream()
-        .sorted(Profile.COMPARATOR)
-        .collect(Collectors.toList());
+  public List<Investigation> list() {
+    return new ArrayList<>(investigations.values());
   }
 
   @Override
-  public Profile get(final int id) {
-    Profile profile = profiles.get(id);
-    if (profile == null) {
+  public Investigation get(final String id) {
+    Investigation investigation = investigations.get(id);
+    if (investigation == null) {
       throw new Err(Status.NOT_FOUND);
     }
-    return profile;
+    return investigation;
   }
 
   @Override
-  public Profile create(final Profile profile) {
-    profile.setId(profiles.size() + 1);
-    profiles.put(profile.getId(), profile);
-    return profile;
+  public Investigation create(final Investigation investigation) {
+    investigations.put(investigation.getName(), investigation);
+    return investigation;
   }
 
   @Override
-  public void delete(final int id) {
-    profiles.remove(id);
+  public void delete(final String id) {
+    investigations.remove(id);
   }
 
   @Override
   public void deleteAll() {
-    profiles.clear();
+    investigations.clear();
   }
 
-  @Override
-  public Profile merge(final int id, final Profile profile) {
-    Profile existing = get(id);
-    Optional.ofNullable(profile.getCompleted()).ifPresent(existing::setCompleted);
-    Optional.ofNullable(profile.getOrder()).ifPresent(existing::setOrder);
-    Optional.ofNullable(profile.getTitle()).ifPresent(existing::setTitle);
-    return existing;
-  }
 
 }

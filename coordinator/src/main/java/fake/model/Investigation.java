@@ -1,9 +1,19 @@
 package fake.model;
 
+import java.util.List;
+
 public class Investigation {
     public String name;
     public String description;
-    public String socialNetwork;
+    public Target target;
+
+    public Target getTarget() {
+        return target;
+    }
+
+    public void setTarget(Target target) {
+        this.target = target;
+    }
 
     public String getName() {
         return name;
@@ -21,11 +31,4 @@ public class Investigation {
         this.description = description;
     }
 
-    public String getSocialNetwork() {
-        return socialNetwork;
-    }
-
-    public void setSocialNetwork(String socialNetwork) {
-        this.socialNetwork = socialNetwork;
-    }
 }
