@@ -1,6 +1,8 @@
 import networkx as nx
 
 node_details_names = ['url', 'name']
+
+
 def create_graph(nodes_file, edges_file):
     G = nx.read_edgelist(edges_file)
     with open(nodes_file, 'r') as file:
@@ -14,5 +16,6 @@ def create_graph(nodes_file, edges_file):
     return G
 
 
-def calculate_graph_centrality():
-    pass
+def calculate_graph_centrality(G):
+    centrality_dict = nx.degree_centrality(G)
+    return sorted(centrality_dict.items(), key=lambda x: x[1], reverse=True)[:5]
