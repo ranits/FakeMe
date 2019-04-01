@@ -18,4 +18,9 @@ def create_graph(nodes_file, edges_file):
 
 def calculate_graph_centrality(G):
     centrality_dict = nx.degree_centrality(G)
-    return sorted(centrality_dict.items(), key=lambda x: x[1], reverse=True)[:5]
+    top_nodes = sorted(centrality_dict.items(), key=lambda x: x[1], reverse=True)[:5]
+    top_nodes = [n[0] for n in top_nodes]
+    return top_nodes
+
+G = create_graph(nodes_file='data/linkedin.nodes.example', edges_file='data/linkedin.edges.example')
+top_n = calculate_graph_centrality(G)
