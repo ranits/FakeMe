@@ -1,7 +1,21 @@
+import networkx as nx
 
-def create_graph():
-    pass
+node_details_names = ['url', 'name']
+def create_graph(nodes_file, edges_file):
+    G = nx.read_edgelist(edges_file)
+    with open(nodes_file, 'r') as file:
+        for line in file:
+            node_details = line.split('\t')
+            if len(node_details) > 1:
+                id = node_details[0]
+                if G.has_node(id):
+                    for index, detail in enumerate(node_details[1:]):
+                        G.nodes()[id][node_details_names[index]] = detail
+    return G
 
 
 def calculate_graph_centrality():
     pass
+
+
+create_graph('data/linkedin.nodes.example', 'data/linkedin.edges.example')
