@@ -1,28 +1,25 @@
 import networkx as nx
 import numpy as np
 import pandas as pd
+import json
 
 node_details_names = ['url', 'name']
 
 
 def create_graph(nodes_file, edges_file):
-    G = nx.read_edgelist(edges_file)
-    with open(nodes_file, 'r') as file:
-        for line in file:
-            node_details = line.split('\t')
-            if len(node_details) > 1:
-                id = node_details[0]
-                if G.has_node(id):
-                    for index, detail in enumerate(node_details[1:]):
-                        G.nodes()[id][node_details_names[index]] = detail
+    G = nx.read_edgelist(edges_file, delimiter=',')
+    with open(nodes_file, 'r') as json_file:
+        data = json.load(json_file)
+        for node_id, details in data.items():
+            G.nodes()[node_id]['details'] = details
     return G
 
 
 def get_graph_top_centers(G, n):
     centrality_dict = nx.degree_centrality(G)
     top_nodes = sorted(centrality_dict.items(), key=lambda x: x[1], reverse=True)[:n]
-    top_nodes = [int(n[0]) for n in top_nodes]
-    return top_nodes
+    top_nodes_obj = {n[0]:G.nodes()[n[0]]['details'] for n in top_nodes}
+    return top_nodes_obj
 
 
 def get_details_df_from_graph(G):

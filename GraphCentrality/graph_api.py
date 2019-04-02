@@ -13,16 +13,13 @@ def get_graph_obj(graph_name):
         raise Exception(f'graph name {graph_name} not found. call /graph/<graph_name>/load_graph first')
 
 
-@app.route('/graph/<graph_name>/load_graph', methods=['POST'])
+@app.route('/graph/<graph_name>/load_graph', methods=['get'])
 def graph_location(graph_name):
-    if request.method == 'POST':
-        nodes_path = request.json.get("nodes_path")
-        edges_path = request.json.get("edges_path")
-        G = create_graph(nodes_file=nodes_path, edges_file=edges_path)
-        graphs[graph_name] = {'graph': G, 'last_update_time': datetime.now()}
-        return f'loaded data for {graph_name}'
-    else:
-        raise Exception("Method type not allowed! use POST.")
+    nodes_path = f'../FS/{graph_name}/nodes.json'
+    edges_path = f'../FS/{graph_name}/edges.csv'
+    G = create_graph(nodes_file=nodes_path, edges_file=edges_path)
+    graphs[graph_name] = {'graph': G, 'last_update_time': datetime.now()}
+    return f'loaded data for {graph_name}'
 
 
 @app.route('/graph/<graph_name>/get_center_nodes/<n>', methods=['GET'])
