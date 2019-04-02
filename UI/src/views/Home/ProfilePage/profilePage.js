@@ -1,6 +1,5 @@
 import React from 'react'
 import Button from "@material-ui/core/Button";
-import Trump from "../../../images/image.jpg";
 
 import "react-toggle/style.css"
 import './ProfilePage.css'
@@ -11,12 +10,13 @@ const ProfilePage = (props) => {
     const {closeModal, profile} = props
     return (
         <div className='profile-page-wrapper'>
-            <img src={Trump} alt=''/>
+            <img src={`http://localhost:8000/${profile.imageUrl}`} alt=''/>
             <div className='fields-wrapper'>
-                {Object.keys(profile).map((field, index) => (
+                {Object.keys(profile.properties)
+                    .map((field, index) => (
                     <div key={`$field-${field}-${index}`} className='field-wrapper'>
                         <span> {`${nameCapitalized(field)}:`}</span>
-                        <span> {profile[field]}</span>
+                        <span> {profile.properties[field]}</span>
                     </div>
                     )
                 )}

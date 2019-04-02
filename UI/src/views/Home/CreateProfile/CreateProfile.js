@@ -66,7 +66,8 @@ class CreateProfile extends React.Component {
         const {closeModal} = this.props
         const {type, links} = this.state
         const filterLinks = links.filter(link => link)
-        // ApiService.apiRequest(ApiService.ROUTES.POST.CREATE_PROFILE, {type, links: filterLinks})
+        debugger
+        ApiService.apiRequest(ApiService.ROUTES.POST.CREATE_PROFILE, {type, links: filterLinks})
         closeModal(true)
 
     }
@@ -93,7 +94,7 @@ class CreateProfile extends React.Component {
                     <Button variant="contained" color="primary" onClick={this.createProfile}>
                         Create
                     </Button>
-                    <Button variant="contained" color="secondary" onClick={closeModal}>
+                    <Button variant="contained" color="secondary" onClick={() => closeModal(false)}>
                         Cancel
                     </Button>
                 </div>
