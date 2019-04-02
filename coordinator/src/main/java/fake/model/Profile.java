@@ -5,10 +5,13 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class Profile {
+  private ProfileState state = ProfileState.INITIALIZE;
 
   private Integer id;
 
   private String title;
+
+  private String imageUrl;
 
   private int age;
 
@@ -20,7 +23,13 @@ public class Profile {
 
   private Integer order;
 
-  private String imageUrl;
+  public ProfileState getState() {
+    return state;
+  }
+
+  public void setState(ProfileState state) {
+    this.state = state;
+  }
 
   public static Comparator<Profile> COMPARATOR = Comparator.comparing(Profile::getOrder);
 

@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
-from graph_utils import create_graph, get_graph_top_centers, sample_graph_details
 from datetime import datetime
+from GraphCentrality.graph_utils import create_graph, get_graph_top_centers, sample_graph_details
 
 app = Flask(__name__)
 graphs = {}
@@ -10,7 +10,7 @@ def get_graph_obj(graph_name):
     if graph_name in graphs:
         return graphs[graph_name]
     else:
-        raise Exception(f'graph name {graph_name} not found. call /graph/<graph_name>/load_grap first')
+        raise Exception(f'graph name {graph_name} not found. call /graph/<graph_name>/load_graph first')
 
 
 @app.route('/graph/<graph_name>/load_graph', methods=['POST'])

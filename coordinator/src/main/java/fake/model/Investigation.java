@@ -1,9 +1,26 @@
 package fake.model;
 
 public class Investigation {
-    public String name;
-    public String description;
-    public String socialNetwork;
+    private InvestigationState state = InvestigationState.INITIALIZE;
+    private String name;
+    private String description;
+    private Target target;
+
+    public InvestigationState getState() {
+        return state;
+    }
+
+    public void setState(InvestigationState state) {
+        this.state = state;
+    }
+
+    public Target getTarget() {
+        return target;
+    }
+
+    public void setTarget(Target target) {
+        this.target = target;
+    }
 
     public String getName() {
         return name;
@@ -21,11 +38,4 @@ public class Investigation {
         this.description = description;
     }
 
-    public String getSocialNetwork() {
-        return socialNetwork;
-    }
-
-    public void setSocialNetwork(String socialNetwork) {
-        this.socialNetwork = socialNetwork;
-    }
 }
