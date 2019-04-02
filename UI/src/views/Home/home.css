@@ -1,0 +1,85 @@
+.home-wrapper {
+    height: 100%;
+}
+
+.images-wrapper {
+    padding-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.home-profiles {
+    height: calc(100% - 60px);
+    background-color: #fafafa;
+    box-shadow: inset 0px 0px 2px 1px;
+}
+
+.image-wrapper {
+    height: fit-content;
+    margin: 10px 10px;
+    box-shadow: 8px -9px 6px -6px black;
+    position: relative
+}
+.img__description {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(78, 85, 86, 0.66);
+    color: #fff;
+    visibility: hidden;
+    opacity: 0;
+    text-align: center;
+    padding-top: 35px;
+    font-size: 23px;
+    cursor: pointer;
+
+    /* transition effect. not necessary */
+    transition: opacity .2s, visibility .2s;
+}
+
+.image-wrapper:hover .img__description {
+    visibility: visible;
+    opacity: 1;
+}
+
+.home-head {
+    background-color: #2196f3;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo{
+    height: 90%;
+    padding-left: 25px;
+    display: flex;
+    align-items: center;
+    font-family: cursive;
+    color: #231f20;
+}
+.logo span{
+    padding-left: 5px
+
+}
+.logo img {
+    height: 100%;
+}
+.create-wrapper{
+    margin-right: 25px;
+}
+
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}

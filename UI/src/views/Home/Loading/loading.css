@@ -1,0 +1,9 @@
+.loading-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.status{
+    margin-bottom: 117px;
+    font-size: 41px;
+}

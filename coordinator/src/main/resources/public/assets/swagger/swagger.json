@@ -1,4 +1,5 @@
-{  "swagger": "2.0",
+{
+  "swagger": "2.0",
   "info": {
     "version": "1.0",
     "title": "Social Investigation"
@@ -20,6 +21,139 @@
     "application/json"
   ],
   "paths": {
+    "/investigation": {
+      "post": {
+        "tags": [
+          "add investigation"
+        ],
+        "summary": "submit an investigation",
+        "description": "submit a investigation",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "<body>",
+            "description": "investigation as json ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Investigation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an investigation Info",
+            "schema": {
+              "$ref": "#/definitions/Investigation"
+            }
+          }
+        }
+      }
+    },
+    "/investigations": {
+      "get": {
+        "tags": [
+          "Get all Investigations"
+        ],
+        "summary": "Get All investigations",
+        "description": "Get All investigations",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Get All investigations"
+          }
+        }
+      }
+    },
+    "/investigation/{id}": {
+      "get": {
+        "tags": [
+          "Investigation"
+        ],
+        "summary": "Get Investigation by Id",
+        "description": "Get Investigation by Id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Investigation id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Investigation details"
+          }
+        }
+      }
+    },
+    "/investigation/{id}/status": {
+      "get": {
+        "tags": [
+          "get investigation status"
+        ],
+        "summary": "Fetch investigation status by investigation ID",
+        "description": "Fetch investigation status by investigation ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "investigation ID.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns <code>200</code> with a single investigation info or <code>404</code>",
+            "schema": {
+              "$ref": "#/definitions/Investigation"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/investigation/{id}/target": {
+      "post": {
+        "tags": [
+          "set investigation target"
+        ],
+        "summary": "set investigation target ",
+        "description": "set investigation target ",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "investigation ID.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "<body>",
+            "description": "profile as json ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns <code>200</code> with a single investigation target or <code>404</code>",
+            "schema": {
+              "$ref": "#/definitions/InvestigationTarget"
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/profiles": {
       "get": {
         "tags": [
@@ -46,7 +180,7 @@
           {
             "name": "id",
             "in": "path",
-            "description": "ontology name",
+            "description": "profile name",
             "required": true,
             "type": "string"
           }
@@ -78,9 +212,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns a profile status",
+            "description": "Returns a profile ",
             "schema": {
-              "$ref": "#/definitions/ProfileInfo"
+              "$ref": "#/definitions/Profile"
             }
           }
         }
@@ -125,9 +259,9 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns <code>200</code> with a single query info or <code>404</code>",
+            "description": "Returns <code>200</code> with a single status info or <code>404</code>",
             "schema": {
-              "$ref": "#/definitions/ProfileInfo"
+              "$ref": "#/definitions/Profile"
             }
           },
           "404": {
@@ -148,18 +282,22 @@
         "name": {
           "type": "string"
         },
-        "query": {
+        "imageUrl": {
           "type": "string"
         }
       },
       "example": {
         "id": "1",
-        "name": "Q1",
-        "ontology":"Knowledge",
-        "query": "match (a:Entity)-[b:relatedEntity]-(c:Entity) return *"
+        "name": "myName",
+        "imageUrl": "/myName/profile_image.jpeg",
+        "properties": {
+          "age": "25",
+          "gender": "male",
+          "school": "oxford"
+        }
       }
     },
-    "ProfileInfo": {
+    "Investigation": {
       "type": "object",
       "properties": {
         "id": {
@@ -168,28 +306,50 @@
         },
         "name": {
           "type": "string"
+        },
+        "description": {
+          "type": "string"
         }
       },
       "example": {
         "id": "1",
-        "name": "Q1",
-        "query": {
-          "ont": "Knowledge",
-          "elements": [
-            {
-              "type": "Start",
-              "eNum": 0,
-              "next": 1
-            },
-            {
-              "type": "EConcrete",
-              "eNum": 1,
-              "eTag": "A",
-              "eType": "Entity",
-              "eID": "12345678"
-            }
+        "name": "KY",
+        "description": "Kayhut investigation",
+        "target": {
+          "socialNetwork": "linkedin",
+          "scrapeResultUrl": ".",
+          "group": "false",
+          "targets": [
+            "benny-getz-93922b",
+            "dror-sabo-0827655",
+            "alon-shwartz-a10a1647"
           ]
         }
+      }
+    },
+    "InvestigationTarget": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "socialNetwork": {
+          "type": "string"
+        },
+        "scrapeResultUrl": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "socialNetwork": "Linkedin",
+        "scrapeResultUrl": ".",
+        "group": "false",
+        "targets": [
+          "benny-getz-93922b",
+          "dror-sabo-0827655",
+          "alon-shwartz-a10a1647"
+        ]
       }
     }
   }

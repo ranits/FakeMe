@@ -1,0 +1,58 @@
+.profile-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.cancel-submit-btn {
+    bottom: 10px;
+    width: 100%;
+    left: 0;
+    display: flex;
+    position: absolute;
+    justify-content: space-around;
+}
+
+.toggle-wrapper {
+    width: 161px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+.toggle-background .react-toggle-track {
+    background-color: #f3f3f3;
+}
+
+.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+    background-color: #f3f3f3;
+}
+
+.react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
+    background-color: #f3f3f3;
+}
+
+.toggle-wrapper svg {
+    position: absolute;
+    top: -6px;
+    left: -4px;
+}
+
+.links-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 200px;
+    overflow-y: auto;
+}
+.link-wrapper{
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+.link-wrapper input{
+    box-shadow: 1px 1px;
+    width: 265px;
+    margin-left: 11px;
+}

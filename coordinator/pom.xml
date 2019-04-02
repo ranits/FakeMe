@@ -1,98 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>fake-coordinator</artifactId>
-  <groupId>hackathon-2019</groupId>
-  <version>1.0</version>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>fake-coordinator</artifactId>
+    <groupId>hackathon-2019</groupId>
+    <version>1.0</version>
 
-  <name>fake-coordinator</name>
+    <name>fake-coordinator</name>
 
-  <properties>
-    <!-- Startup class -->
-    <application.class>fake.App</application.class>
-    <!--jooby plugin -->
-    <jooby.version>1.6.0</jooby.version>
-    <logback.version>1.1.7</logback.version>
-    <funzy.version>0.1.0</funzy.version>
-    <rest-assured.version>3.1.0</rest-assured.version>
-    <junit.version>4.12</junit.version>
+    <properties>
+        <!-- Startup class -->
+        <application.class>fake.App</application.class>
+        <!--jooby plugin -->
+        <jooby.version>1.6.0</jooby.version>
+        <logback.version>1.1.7</logback.version>
+        <funzy.version>0.1.0</funzy.version>
+        <rest-assured.version>3.1.0</rest-assured.version>
+        <junit.version>4.12</junit.version>
 
-  </properties>
+    </properties>
 
-  <dependencies>
-    <!-- Server -->
-    <dependency>
-      <groupId>org.jooby</groupId>
-      <artifactId>jooby-netty</artifactId>
-      <version>${jooby.version}</version>
-    </dependency>
+    <dependencies>
+        <!-- Server -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.14.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.socket</groupId>
+            <artifactId>socket.io-client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jooby</groupId>
+            <artifactId>jooby-netty</artifactId>
+            <version>${jooby.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.jooby</groupId>
-      <artifactId>jooby-scanner</artifactId>
-      <version>${jooby.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.jooby</groupId>
+            <artifactId>jooby-scanner</artifactId>
+            <version>${jooby.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.jooby</groupId>
-      <artifactId>jooby-jackson</artifactId>
-      <version>${jooby.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.jooby</groupId>
+            <artifactId>jooby-jackson</artifactId>
+            <version>${jooby.version}</version>
+        </dependency>
 
-    <!-- logging -->
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>${logback.version}</version>
-    </dependency>
+        <!-- logging -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
 
-    <!-- Tests -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-      <version>${junit.version}</version>
-    </dependency>
+        <!-- Tests -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+            <version>${junit.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <scope>test</scope>
-      <version>${rest-assured.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+            <version>${rest-assured.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.jooby</groupId>
-      <artifactId>funzy</artifactId>
-      <version>${funzy.version}</version>
-    </dependency>
+        <dependency>
+            <groupId>org.jooby</groupId>
+            <artifactId>funzy</artifactId>
+            <version>${funzy.version}</version>
+        </dependency>
 
-    <dependency>
-      <groupId>org.jooby</groupId>
-      <artifactId>jooby-apitool</artifactId>
-      <version>${jooby.version}</version>
-    </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>org.jooby</groupId>
+            <artifactId>jooby-apitool</artifactId>
+            <version>${jooby.version}</version>
+        </dependency>
+    </dependencies>
 
-  <build>
-    <finalName>fake-coordinator</finalName>
-    <plugins>
-    <!-- Build fat jar -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+    <build>
+        <finalName>fake-coordinator</finalName>
+        <plugins>
+            <!-- Build fat jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <configuration>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>fake.App</mainClass>
+                        </transformer>
+                    </transformers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

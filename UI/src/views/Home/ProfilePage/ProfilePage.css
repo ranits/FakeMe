@@ -1,0 +1,27 @@
+.profile-page-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.profile-page-wrapper img{
+    height: 130px;
+}
+
+.cancel-submit-btn {
+    bottom: 10px;
+    width: 100%;
+    left: 0;
+    display: flex;
+    position: absolute;
+    justify-content: space-around;
+}
+.fields-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.field-wrapper{
+    margin: 5px 0;
+    padding: 1px 3px;
+    box-shadow: 1px 1px 1px 1px;
+}

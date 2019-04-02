@@ -1,16 +1,31 @@
 package fake.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Target {
-    public String socialNetwork;
+    private String socialNetwork;
 
-    public List<String> targets;
+    private String scrapeResultUrl;
 
-    public boolean group;
+    private List<String> targets;
+
+    private boolean group;
 
     public boolean isGroup() {
         return group;
+    }
+
+    public String getScrapeResultUrl() {
+        return scrapeResultUrl;
+    }
+
+    public void setScrapeResultUrl(String scrapeResultUrl) {
+        this.scrapeResultUrl = scrapeResultUrl;
     }
 
     public void setGroup(boolean group) {
