@@ -1,11 +1,18 @@
 package fake.model;
 
-import java.util.List;
-
 public class Investigation {
-    public String name;
-    public String description;
-    public Target target;
+    private InvestigationState state = InvestigationState.INITIALIZE;
+    private String name;
+    private String description;
+    private Target target;
+
+    public InvestigationState getState() {
+        return state;
+    }
+
+    public void setState(InvestigationState state) {
+        this.state = state;
+    }
 
     public Target getTarget() {
         return target;

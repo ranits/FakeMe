@@ -1,8 +1,11 @@
 package fake;
 
 import fake.model.Investigation;
+import fake.model.InvestigationState;
 import fake.model.Profile;
 import fake.model.Target;
+import fake.model.commands.GraphCommand;
+import fake.model.commands.ScrapeCommand;
 import org.jooby.Jooby;
 import org.jooby.RequestLogger;
 import org.jooby.Results;
@@ -10,6 +13,10 @@ import org.jooby.Status;
 import org.jooby.apitool.ApiTool;
 import org.jooby.json.Jackson;
 import org.jooby.scanner.Scanner;
+
+import java.net.URISyntaxException;
+
+import static fake.Utils.*;
 
 /**
  * Source code for http://www.todobackend.com.
@@ -36,16 +43,57 @@ public class App extends Jooby {
             }
         });
 
+        /** WebSocket state broadcast: */
+        /**************************************************************************************************************/
+        try {
+            Utils.ws("localhost:9998");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+
         /** Investigation API: */
+        /**************************************************************************************************************/
         post("/investigation",(request) -> {
             InvestigationAPI store = getInvestigation();
             return store.list();
         });
-        /** Investigation API: */
+
         post("/investigation/:id/target",(req) -> {
             Investigation investigation = getInvestigation().get(req.param("id").toString());
             Target target = req.body(Target.class);
             investigation.setTarget(target);
+            return target;
+        });
+
+        get("/investigation/:id/scrape",(req) -> {
+            Investigation investigation = getInvestigation().get(req.param("id").toString());
+            Target target = investigation.getTarget();
+            ScrapeCommand command = new ScrapeCommand(target);
+            Utils.CallResponse<Object> response = call(SCRAPE_BASE_URL, command);
+            if(response.code==200) {
+                investigation.setState(InvestigationState.SCRAPING);
+            } else {
+                return response;
+            }
+            return target;
+        });
+
+        get("/investigation/:id/graph/:algo",(req) -> {
+            String id = req.param("id").toString();
+            String algo = req.param("algo").toString();
+
+            Investigation investigation = getInvestigation().get(id);
+            Target target = investigation.getTarget();
+
+            GraphCommand command = new GraphCommand(investigation.getName(),target.getScrapeResultUrl(),algo);
+            Utils.CallResponse<Object> response = call(GRAPH_BASE_URL, command);
+
+            if(response.code==200) {
+                investigation.setState(InvestigationState.SCRAPING);
+            } else {
+                return response;
+            }
             return target;
         });
 
@@ -57,12 +105,22 @@ public class App extends Jooby {
         post("/investigation",req -> {
             return Results.with(getInvestigation().create(req.body(Investigation.class)), Status.CREATED);
         });
+        /**************************************************************************************************************/
 
         /** Image API: */
 
+
+
+        /**************************************************************************************************************/
         /** Graph API: */
+        /**     POST: [/graph/:graph_name/load_graph] **/
+        /**     GET: [/graph/:graph_name/get_center_nodes/:n]  **/
+        /**     GET: [/graph/<graph_name>/sample_details]  **/
+        /**************************************************************************************************************/
+
 
         /** Profile API: */
+        /**************************************************************************************************************/
         get("/profiles",(request) -> {
                     SocialAPI store = getProfiles();
                     return store.list();
@@ -94,6 +152,8 @@ public class App extends Jooby {
                     SocialAPI store = getProfiles();
                     return store.merge(req.param("id").intValue(), req.body(Profile.class));
                 });
+
+        /**************************************************************************************************************/
         use(new ApiTool()
                 .swagger("/swagger")
         );
