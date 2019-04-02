@@ -19,7 +19,7 @@ def graph_location(graph_name):
         nodes_path = request.json.get("nodes_path")
         edges_path = request.json.get("edges_path")
         G = create_graph(nodes_file=nodes_path, edges_file=edges_path)
-        graphs[graph_name] = {'graph': G, 'last_update_time':datetime.now()}
+        graphs[graph_name] = {'graph': G, 'last_update_time': datetime.now()}
         return f'loaded data for {graph_name}'
     else:
         raise Exception("Method type not allowed! use POST.")
@@ -41,4 +41,3 @@ def sample_node_details(graph_name):
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
-
