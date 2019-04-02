@@ -35,8 +35,8 @@ def generate_picture(path):
         if similar_pictures.__len__() < max_pic:
             if not same_pic_name.__contains__(default_name):
                 same_pic_url = get_url(same_pic_name)
-                if params_identical(path, same_pic_url):
-                    similar_pictures[same_pic_url] = confidence
+                #if params_identical(path, same_pic_url):
+                similar_pictures[same_pic_url] = confidence
         else:
             return similar_pictures
     return similar_pictures
