@@ -1,30 +1,40 @@
 package fake.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Properties;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Profile {
   private ProfileState state = ProfileState.INITIALIZE;
 
-  private Integer id;
+  private String id;
 
-  private String title;
+  private Properties properties;
 
   private String imageUrl;
 
-  private int age;
-
-  private boolean gender;
-
-  private boolean avatar;
-
   private Boolean completed;
+
+  private Boolean avatar;
 
   private Integer order;
 
   public ProfileState getState() {
     return state;
+  }
+
+  public Properties getProperties() {
+    return properties;
+  }
+
+  public void setProperties(Properties properties) {
+    this.properties = properties;
   }
 
   public void setState(ProfileState state) {
@@ -41,40 +51,12 @@ public class Profile {
     this.avatar = avatar;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public int getAge() {
-    return age;
-  }
-
-  public void setAge(int age) {
-    this.age = age;
-  }
-
-  public boolean isGender() {
-    return gender;
-  }
-
-  public void setGender(boolean gender) {
-    this.gender = gender;
-  }
-
-  public int getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(final int id) {
+  public void setId(final String id) {
     this.id = id;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(final String title) {
-    this.title = title;
   }
 
   public Boolean getCompleted() {
@@ -102,16 +84,22 @@ public class Profile {
   }
 
   @Override
-  public boolean equals(final Object obj) {
-    if (obj instanceof Profile) {
-      return Objects.equals(id, ((Profile) obj).id);
-    }
-    return false;
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Profile profile = (Profile) o;
+    return state == profile.state &&
+            Objects.equals(id, profile.id) &&
+            Objects.equals(properties, profile.properties) &&
+            Objects.equals(imageUrl, profile.imageUrl) &&
+            Objects.equals(completed, profile.completed) &&
+            Objects.equals(avatar, profile.avatar) &&
+            Objects.equals(order, profile.order);
   }
 
   @Override
   public int hashCode() {
-    return Optional.ofNullable(id).orElse(1);
-  }
 
+    return Objects.hash(state, id, properties, imageUrl, completed, avatar, order);
+  }
 }
