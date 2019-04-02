@@ -1,15 +1,14 @@
 package fake;
 
+import fake.model.Investigation;
+import org.jooby.Err;
+import org.jooby.Status;
+
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import javax.inject.Singleton;
-
-import fake.model.Investigation;
-import org.jooby.Err;
-import org.jooby.Status;
 
 @Singleton
 public class InvestigationService implements InvestigationAPI {
@@ -36,7 +35,7 @@ public class InvestigationService implements InvestigationAPI {
 
   @Override
   public Investigation create(final Investigation investigation) {
-    investigations.put(investigation.getName(), investigation);
+    investigations.put(investigation.getId(), investigation);
     return investigation;
   }
 

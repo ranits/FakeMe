@@ -1,36 +1,37 @@
 package fake.model.commands;
 
+import fake.model.Profile;
+
 public class ImageCommand {
-    private String profile;
-    private final String age;
-    private final String gender;
-    private final String race;
+    public static final String IMAGE_BASE_URL = "http://localhost:8020/image/";
 
-    public ImageCommand(String profileId, String age, String gender, String race) {
-        this.profile = profileId;
-        this.age = age;
-        this.gender = gender;
-        this.race = race;
+    private String investigationId;
+    private Profile profile;
+
+    /**************************************************************************************************************/
+    /** Image API: */
+    /**     POST: [/graph/:graph_name/load_graph] **/
+    /**     GET: [/graph/:graph_name/get_center_nodes/:n]  **/
+    /**     GET: [/graph/<graph_name>/sample_details]  **/
+    /**************************************************************************************************************/
+    public ImageCommand(String investigationId, Profile profile) {
+        this.investigationId = investigationId;
+        this.profile = profile;
     }
 
-
-    public String getAge() {
-        return age;
+    public String getInvestigationId() {
+        return investigationId;
     }
 
-    public String getGender() {
-        return gender;
+    public void setInvestigationId(String investigationId) {
+        this.investigationId = investigationId;
     }
 
-    public String getRace() {
-        return race;
-    }
-
-    public String getProfile() {
+    public Profile getProfile() {
         return profile;
     }
 
-    public void setProfile(String profile) {
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
 }

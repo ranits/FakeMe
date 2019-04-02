@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class ProfileService implements SocialAPI {
 
-  private Map<Integer, Profile> profiles = new ConcurrentHashMap<>();
+  private Map<String, Profile> profiles = new ConcurrentHashMap<>();
 
   public ProfileService() {
     System.out.println("Initializing InvestigationService[profiles]");
@@ -28,7 +28,7 @@ public class ProfileService implements SocialAPI {
   }
 
   @Override
-  public Profile get(final int id) {
+  public Profile get(final String id) {
     Profile profile = profiles.get(id);
     if (profile == null) {
       throw new Err(Status.NOT_FOUND);
@@ -38,13 +38,13 @@ public class ProfileService implements SocialAPI {
 
   @Override
   public Profile create(final Profile profile) {
-    profile.setId(profiles.size() + 1);
+    profile.setId(Integer.toString(profiles.size() + 1));
     profiles.put(profile.getId(), profile);
     return profile;
   }
 
   @Override
-  public void delete(final int id) {
+  public void delete(final String id) {
     profiles.remove(id);
   }
 
@@ -54,11 +54,10 @@ public class ProfileService implements SocialAPI {
   }
 
   @Override
-  public Profile merge(final int id, final Profile profile) {
+  public Profile merge(final String id, final Profile profile) {
     Profile existing = get(id);
     Optional.ofNullable(profile.getCompleted()).ifPresent(existing::setCompleted);
     Optional.ofNullable(profile.getOrder()).ifPresent(existing::setOrder);
-    Optional.ofNullable(profile.getTitle()).ifPresent(existing::setTitle);
     return existing;
   }
 

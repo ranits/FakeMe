@@ -10,13 +10,13 @@ import java.util.List;
 public interface SocialAPI {
     List<Profile> list();
 
-    Profile get(int id);
+    Profile get(String id);
 
     Profile create(Profile profile);
 
-    void delete(int id);
+    void delete(String id);
 
     void deleteAll();
 
-    Profile merge(int id, Profile profile);
+    Profile merge(String id, Profile profile);
 }
