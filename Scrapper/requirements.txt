@@ -1,5 +1,5 @@
 cssselect==1.0.3
-lxml==4.3.3
+lxml==4.6.3
 parsel==1.5.1
 resolver==0.2.1
 sel==0.2.2
