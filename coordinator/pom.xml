@@ -14,7 +14,7 @@
         <application.class>fake.App</application.class>
         <!--jooby plugin -->
         <jooby.version>1.6.0</jooby.version>
-        <logback.version>1.1.7</logback.version>
+        <logback.version>1.2.0</logback.version>
         <funzy.version>0.1.0</funzy.version>
         <rest-assured.version>3.1.0</rest-assured.version>
         <junit.version>4.12</junit.version>
